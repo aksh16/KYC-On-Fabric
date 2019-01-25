@@ -1,0 +1,38 @@
+docker rm --force composer-playground
+docker run --name composer-playground --publish 8080:8080 --detach hyperledger/composer-playground
+
+
+
+npm install  // it will install the dependencies and createt bna in dist folder 
+
+composer network install -a perishable-network.bna -c PeerAdmin@hlfv1  // install fabrick
+
+//restart
+
+composer network start --networkName perishable-network --networkVersion '0.2.6' --networkAdmin admin --networkAdminEnrollSecret randomString --card PeerAdmin@hlfv1            // crete admin@perishable-network.card change  password adminpw password
+
+// or
+
+composer network start --networkName perishable-network --networkVersion '0.2.6' --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1            // crete admin@perishable-network.card change  password adminpw password
+
+
+composer card import -f admin@perishable-network.card // add card
+
+composer-rest-server
+
+
+
+yo hyperledger-composer:angular // deploy angular app at http://localhost:4200
+cd angular-app/
+npm start
+
+
+
+0:- goto hyperledger server toos directory
+1:- ./fabricStart.sh
+1.1 :- goto perishable network directory and in disc folder
+2:-composer network install -a perishable-network.bna -c PeerAdmin@hlfv1
+3:-composer network start --networkName perishable-network --networkVersion '0.2.6' --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1
+4:-composer-rest-server
+4.1:-goto angulur app directory in perishable network
+5:-npm start
