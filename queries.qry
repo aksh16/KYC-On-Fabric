@@ -1,0 +1,6 @@
+query UsersByDate {
+  description: "this query returns the UserResult at perticular date "
+  statement:
+    SELECT org.kyc.network.UserResult
+      WHERE ( timestamp == _$timestamp )
+}

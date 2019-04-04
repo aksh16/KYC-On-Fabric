@@ -10,26 +10,50 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
-rule CanAdd {
-    description: "Allow banks to add or read kyc details"
+rule BankToNetwork {
+    description: "Access Network Read"
     participant: "org.kyc.network.Bank"
-    operation: CREATE,READ
-    resource: "org.kyc.network.UserResult"
+    operation: READ
+    resource: "org.hyperledger.composer.system.**"
     action: ALLOW
 }
 
-rule NotAddBank {
-    description: "Deny banks to add or delete other banks"
+rule BankToAddUser {
+    description: "create transcation"
     participant: "org.kyc.network.Bank"
-    operation: ALL
+    operation: CREATE
+    resource: "org.kyc.network.AddUser"
+    action: ALLOW
+}
+
+rule BankToBank {
+    description: "Deny banks to add, update or delete other banks"
+    participant: "org.kyc.network.Bank"
+    operation: CREATE, DELETE, UPDATE
     resource: "org.kyc.network.Bank"
     action: DENY
 }
 
-rule CanNotDelete {
-    description: "Deny banks to Delete kyc details"
+rule BankToBankDefault {
+    description: "Default allow for banks"
+    participant: "org.kyc.network.Bank"
+    operation: READ
+    resource: "org.kyc.network.Bank"
+    action: ALLOW
+}
+
+rule BankToUser {
+    description: "Allow banks to access kyc details of user"
+    participant: "org.kyc.network.Bank"
+    operation: CREATE, READ, UPDATE
+    resource: "org.kyc.network.UserResult"
+    action: ALLOW
+}
+
+rule BankToUserDefault {
+    description: "Allow banks to access kyc details of user"
     participant: "org.kyc.network.Bank"
     operation: DELETE
     resource: "org.kyc.network.UserResult"
@@ -51,4 +75,3 @@ rule NetworkAdminSystem {
     resource: "org.hyperledger.composer.system.**"
     action: ALLOW
 }
-

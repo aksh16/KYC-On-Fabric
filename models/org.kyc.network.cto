@@ -12,12 +12,17 @@
  * limitations under the License.
  */
 
+/**
+ * Write your model definitions here
+ */
+
 namespace org.kyc.network
 
 asset UserResult identified by userid {
   o String userid
   o String[] filetype
   o String[] filehash
+  o String status default = "pending"
   o String timestamp
   --> Bank bank
 }
@@ -28,14 +33,18 @@ participant Bank identified by code{
 }
 
 transaction AddUser {
+  o String userid
+  --> Bank bank
 }
 
 transaction AddBank {
+  o String codetype
+  o String code
 }
 
 transaction EditUser {
   o String filetype
   o String filehash
+  o String status default = "pending"
   --> UserResult userres
 }
-
