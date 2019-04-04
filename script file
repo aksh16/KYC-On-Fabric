@@ -56,4 +56,5 @@ npm start
 for Github
 
 git add .
+git commit -m 'Commit type'
 git push kyc-network
