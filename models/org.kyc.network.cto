@@ -23,6 +23,7 @@ asset UserResult identified by userid {
   o String[] filetype
   o String[] filehash
   o String status default = "pending"
+  o Integer currentvalue default = 100
   o String timestamp
   --> Bank bank
 }
@@ -30,6 +31,12 @@ asset UserResult identified by userid {
 participant Bank identified by code{
   o String codetype
   o String code
+}
+
+asset BankBalance identified by balanceid{
+  o String balanceid
+  o Integer balance default = 1000
+  --> Bank bank
 }
 
 transaction AddUser {
@@ -47,4 +54,10 @@ transaction EditUser {
   o String filehash
   o String status default = "pending"
   --> UserResult userres
+}
+
+@returns(String)
+transaction CheckKyc {
+  --> UserResult userres
+  --> BankBalance bankb
 }
