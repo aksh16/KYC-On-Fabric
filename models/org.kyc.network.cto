@@ -25,7 +25,7 @@ asset UserResult identified by userid {
   o String status default = "pending"
   o Integer currentvalue default = 100
   o String timestamp
-  --> Bank bank
+  --> BankBalance bank
 }
 
 participant Bank identified by code{
@@ -41,7 +41,7 @@ asset BankBalance identified by balanceid{
 
 transaction AddUser {
   o String userid
-  --> Bank bank
+  --> BankBalance bankid
 }
 
 transaction AddBank {
