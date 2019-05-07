@@ -15,7 +15,7 @@
 rule BankToNetwork {
     description: "Access Network Read"
     participant: "org.kyc.network.Bank"
-    operation: READ
+    operation: CREATE,READ
     resource: "org.hyperledger.composer.system.**"
     action: ALLOW
 }
@@ -33,6 +33,54 @@ rule BankToBank {
     participant: "org.kyc.network.Bank"
     operation: CREATE, DELETE, UPDATE
     resource: "org.kyc.network.Bank"
+    action: DENY
+}
+
+rule BankToBankBalance {
+    description: "Deny banks to read and update other banks"
+    participant: "org.kyc.network.Bank"
+    operation: READ, UPDATE
+    resource: "org.kyc.network.BankBalance"
+    action: ALLOW
+}
+
+rule BankToBankBalanceDefault {
+    description: "Deny banks to read and update other banks"
+    participant: "org.kyc.network.Bank"
+    operation: DELETE, CREATE
+    resource: "org.kyc.network.BankBalance"
+    action: DENY
+}
+
+rule BankToEditUser {
+    description: "acces to create EditUser"
+    participant: "org.kyc.network.Bank"
+    operation: CREATE
+    resource: "org.kyc.network.EditUser"
+    action: ALLOW
+}
+
+rule BankToEditUserDefault {
+    description: "deny other acess to EditUser"
+    participant: "org.kyc.network.Bank"
+    operation: READ, UPDATE, DELETE
+    resource: "org.kyc.network.EditUser"
+    action: DENY
+}
+
+rule BankToCheckKyc {
+    description: "acces to create CheckKyc"
+    participant: "org.kyc.network.Bank"
+    operation: CREATE
+    resource: "org.kyc.network.CheckKyc"
+    action: ALLOW
+}
+
+rule BankToCheckKycDefault {
+    description: "deny other acess to CheckKyc"
+    participant: "org.kyc.network.Bank"
+    operation: READ, UPDATE, DELETE
+    resource: "org.kyc.network.CheckKyc"
     action: DENY
 }
 
